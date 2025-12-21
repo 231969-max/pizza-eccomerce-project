@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head th:replace="fragments :: head(title='Pizza Shop - Contact')">
+</head>
+
+<body>
+
+    <!-- header section starts -->
+    <header th:replace="fragments :: header"></header>
+    <!-- header section ends -->
+
+    <div class="heading">
+        <h1>our contact</h1>
+        <p><a href="index.html" th:href="@{/index.html}">home>>></a> contact</p>
+    </div>
+
+
+    <!-- contact section starts -->
+
+    <section class="contact">
+
+        <div class="icon-container">
+
+            <div class="icons">
+                <i class="fas fa-phone"></i>
+                <h3>use our social media platforms</h3>
+                <p>to contact us</p>
+            </div>
+
+            <div class="icons">
+                <i class="fas fa-envelope"></i>
+                <h3>our email</h3>
+                <p>231969@students.au.edu.pk</p>
+
+            </div>
+
+            <div class="icons">
+                <i class="fas fa-map-marker-alt"></i>
+                <h3>our address</h3>
+                <p>Islamabad , Pakistan - 1234</p>
+            </div>
+
+        </div>
+
+        <div class="row">
+
+            <form action="">
+                <h3>let's contact with us</h3>
+                <div class="inputBox">
+                    <input type="text" placeholder="enter your name" class="box">
+                    <input type="email" placeholder="enter your email" class="box">
+                </div>
+                <div class="inputBox">
+                    <input type="number" placeholder="enter your number" class="box">
+                    <input type="text" placeholder="enter your subject" class="box">
+                </div>
+                <textarea placeholder="your message" cols="30" rows="10"></textarea>
+                <input type="submit" value="send message" class="btn">
+            </form>
+
+        </div>
+
+    </section>
+
+    <!-- contact section ends -->
+
+    <!-- footer section starts -->
+    <section th:replace="fragments :: footer"></section>
+    <!-- footer section ends -->
+
+    <!-- Modals -->
+    <div th:replace="fragments :: modals"></div>
+
+    <!-- custom js link -->
+    <script type="module" src="js/app.js" th:src="@{/js/app.js}"></script>
+
+</body>
+
+</html>

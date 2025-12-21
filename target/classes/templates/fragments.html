@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head th:fragment="head">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        content="Delicious pizzas and more — order online from Areej's Pizza. Fresh ingredients, fast delivery.">
+    <title th:text="${title} ?: 'Pizza Shop'">Pizza Shop</title>
+
+    <!-- font awesome cdn link  -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <!-- swiper cdn link -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css" />
+    <!-- custom css link -->
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+
+<body>
+
+    <!-- Header Fragment -->
+    <header th:fragment="header" class="header">
+        <a href="index.html" th:href="@{/index.html}" class="logo"> <i class="fas fa-pizza-slice"></i> pizza</a>
+
+        <nav class="navbar">
+            <a href="index.html" th:href="@{/index.html}" th:classappend="${activePage == 'home'} ? 'active'">home</a>
+            <a href="menu.html" th:href="@{/menu.html}" th:classappend="${activePage == 'menu'} ? 'active'">menu</a>
+            <a href="about.html" th:href="@{/about.html}" th:classappend="${activePage == 'about'} ? 'active'">about</a>
+            <a href="gallery.html" th:href="@{/gallery.html}"
+                th:classappend="${activePage == 'gallery'} ? 'active'">gallery</a>
+            <a href="contact.html" th:href="@{/contact.html}"
+                th:classappend="${activePage == 'contact'} ? 'active'">contact</a>
+        </nav>
+
+        <div class="icons">
+            <div id="cart" class="fas fa-shopping-cart">
+                <span id="cart-badge" class="cart-badge">0</span>
+            </div>
+            <div id="login" class="fas fa-user" sec:authorize="!isAuthenticated()"></div>
+            <div id="user-btn" class="fas fa-user" sec:authorize="isAuthenticated()"></div>
+            <div id="menu" class="fas fa-bars"></div>
+        </div>
+    </header>
+
+    <!-- Footer Fragment -->
+    <section th:fragment="footer" class="footer">
+        <div class="box-container">
+            <div class="box">
+                <h3>Follow for exclusive deals and savings</h3>
+                <div class="share">
+                    <a href="#" class="fab fa-facebook-f"></a>
+                    <a href="#" class="fab fa-twitter"></a>
+                    <a href="#" class="fab fa-instagram"></a>
+                    <a href="#" class="fab fa-linkedin"></a>
+                </div>
+            </div>
+
+            <div class="box">
+                <h3>contact us</h3>
+                <a class="btn" href="mailto:231969@students.au.edu.pk">Contact Areej</a>
+            </div>
+
+            <div class="box">
+                <h3>Made By:</h3>
+                <p>Areej Anwaar <br> BSSE-5A</p>
+            </div>
+        </div>
+        <div class="credit">Created by <span>Areej Anwaar</span> | all rights reserved!</div>
+    </section>
+
+    <!-- Modals Fragment -->
+    <div th:fragment="modals">
+        <!-- Cart Modal -->
+        <div class="modal" id="cart-modal">
+            <div class="modal-content">
+                <span class="modal-close" id="close-cart">&times;</span>
+                <h3 class="title">Your Cart</h3>
+                <div class="box-container">
+                    <!-- Cart items injected here -->
+                </div>
+                <div class="total"> total : <span>Rs.0</span> </div>
+                <a href="#" class="btn checkout-btn">checkout</a>
+            </div>
+        </div>
+
+        <!-- Login Modal -->
+        <div class="modal" id="login-modal">
+            <div class="modal-content">
+                <span class="modal-close" id="close-login">&times;</span>
+                <form action="/api/auth/login" th:action="@{/api/auth/login}" method="post" class="login-form">
+                    <h3>login now</h3>
+                    <input type="email" name="username" placeholder="your email" class="box">
+                    <input type="password" name="password" placeholder="your password" class="box">
+                    <div class="remember">
+                        <input type="checkbox" name="" id="remember-me">
+                        <label for="remember-me">remember me</label>
+                    </div>
+                    <input type="submit" value="login now" class="btn">
+                    <p>don't have an account? <a href="#" id="open-signup">create one</a></p>
+                </form>
+            </div>
+        </div>
+
+        <!-- Signup Modal -->
+        <div class="modal" id="signup-modal">
+            <div class="modal-content">
+                <span class="modal-close" id="close-signup">&times;</span>
+                <form action="/api/auth/signup" th:action="@{/api/auth/signup}" method="post" class="login-form">
+                    <h3>Sign Up</h3>
+                    <input type="text" name="name" placeholder="your name" class="box">
+                    <input type="email" name="email" placeholder="your email" class="box">
+                    <input type="password" name="password" placeholder="your password" class="box">
+                    <input type="submit" value="sign up" class="btn">
+                    <p>already have an account? <a href="#" id="open-login">login</a></p>
+                </form>
+            </div>
+        </div>
+
+        <!-- User Profile Modal (NEW) -->
+        <div class="modal" id="profile-modal" sec:authorize="isAuthenticated()">
+            <div class="modal-content">
+                <span class="modal-close" id="close-profile">&times;</span>
+                <h3 class="title">My Profile</h3>
+                <div class="profile-details" style="text-align: center; padding: 2rem;">
+                    <i class="fas fa-user-circle" style="font-size: 5rem; color: var(--main-color);"></i>
+                    <h3 style="margin-top: 1rem;" th:text="'Hello, ' + ${#authentication.principal.fullName}">User</h3>
+                    <p style="font-size: 1.5rem; color: #666;" th:text="${#authentication.principal.username}">
+                        email@example.com</p>
+                    <!-- Future: Add Order History Link Here -->
+                    <br>
+                    <form th:action="@{/logout}" method="post">
+                        <button type="submit" class="btn">Logout</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- Food Details Modal (NEW) -->
+        <div class="modal" id="food-details-modal">
+            <div class="modal-content food-details-content">
+                <span class="modal-close" id="close-food-details">&times;</span>
+                <div class="details-container">
+                    <div class="image-section">
+                        <img src="" alt="Food Image" id="modal-food-image">
+                    </div>
+                    <div class="info-section">
+                        <h3 id="modal-food-title">Food Name</h3>
+                        <p class="tagline" id="modal-food-flavor">Flavor Profile</p>
+                        <div class="description-box">
+                            <h4>Description & Ingredients</h4>
+                            <p id="modal-food-ingredients">Details...</p>
+                        </div>
+                        <div class="allergies-box">
+                            <h4>Allergens</h4>
+                            <p id="modal-food-allergies">None</p>
+                        </div>
+                        <a href="#" class="btn" id="modal-order-btn"
+                            style="width: 100%; text-align: center; margin-top: 1rem;">Order Now</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Checkout Modal (NEW) -->
+        <div class="modal" id="checkout-modal">
+            <div class="modal-content checkout-content">
+                <span class="modal-close" id="close-checkout">&times;</span>
+                <h3 class="title">Checkout</h3>
+
+                <div class="checkout-container">
+                    <!-- Left Column: User Details -->
+                    <div class="checkout-form-section">
+                        <h4>Delivery Details</h4>
+                        <form id="checkout-form">
+                            <div class="input-group">
+                                <input type="text" id="checkout-name" placeholder="Full Name" required class="box">
+                                <input type="tel" id="checkout-phone" placeholder="Phone Number" required class="box">
+                            </div>
+                            <input type="text" id="checkout-address"
+                                placeholder="Delivery Address (House, Street, Area)" required class="box">
+                            <input type="text" id="checkout-landmark" placeholder="Landmark (Optional)" class="box">
+                            <textarea id="checkout-notes" placeholder="Delivery Notes (Optional)" class="box"
+                                rows="2"></textarea>
+
+                            <h4>Delivery Option</h4>
+                            <div class="delivery-options">
+                                <label><input type="radio" name="delivery-type" value="delivery" checked>
+                                    Delivery</label>
+                                <label><input type="radio" name="delivery-type" value="pickup"> Pickup</label>
+                            </div>
+                            <p class="eta">Estimated Time: <span>30-45 mins</span></p>
+
+                            <h4>Payment Method</h4>
+                            <div class="payment-options">
+                                <label><input type="radio" name="payment-method" value="cod" checked> Cash on
+                                    Delivery</label>
+                                <!-- Add more if needed -->
+                            </div>
+                        </form>
+                    </div>
+
+                    <!-- Right Column: Order Summary -->
+                    <div class="checkout-summary-section">
+                        <h4>Order Summary</h4>
+                        <div class="summary-items">
+                            <!-- Items injected here -->
+                        </div>
+
+                        <div class="price-breakdown">
+                            <div class="row"><span>Subtotal</span> <span id="summary-subtotal">Rs.0</span></div>
+                            <div class="row"><span>Delivery</span> <span id="summary-delivery">Rs.0</span></div>
+                            <div class="row"><span>Tax</span> <span id="summary-tax">Rs.0</span></div>
+                            <div class="row total"><span>Total</span> <span id="summary-total">Rs.0</span></div>
+                        </div>
+
+                        <button type="button" class="btn place-order-btn" id="place-order-btn">Place
+                            Order</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+
+</html>

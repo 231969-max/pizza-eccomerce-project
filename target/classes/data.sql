@@ -1,0 +1,17 @@
+INSERT INTO products (id, name, description, price, category, image_url, rating) VALUES 
+(1, 'Margherita Pizza', 'A classic Italian favorite featuring fresh mozzarella, tomato sauce, basil, and a drizzle of olive oil on a thin crust', 2000, 'pizza', 'images/pizza-1.png', 4.5),
+(2, 'Pepproni Pizza', 'The timeless crowd-pleaser, loaded with savory pepperoni slices, melted mozzarella, and tangy tomato sauce', 2000, 'pizza', 'images/pizza-2.png', 4.8),
+(3, 'Vegetarian Supreme Pizza', 'Packed with a colorful assortment of fresh vegetables such as bell peppers, mushrooms, olives, onions, and tomatoes', 2000, 'pizza', 'images/pizza-3.png', 4.6),
+(4, 'BBQ Chicken Pizza', 'A mouthwatering blend of barbecue sauce, grilled chicken, red onions, and cilantro', 1500, 'pizza', 'images/pizza-4.png', 4.7),
+(5, 'Hawaiian Pizza', 'A tropical twist with ham, pineapple, and mozzarella', 1800, 'pizza', 'images/pizza-5.png', 4.4),
+(6, 'Supreme Pizza', 'A tantalizing blend of pepperoni, sausage, bell peppers, onions, mushrooms, and black olives', 2000, 'pizza', 'images/pizza-6.png', 4.9),
+(7, 'Spaghetti', 'Classic and versatile, these long, thin strands are a staple in Italian cuisine', 1300, 'pasta', 'images/pasta-1.png', 4.5),
+(8, 'Fettuccine Alfredo', 'Wide ribbons of pasta bathed in a rich and creamy Alfredo sauce', 1800, 'pasta', 'images/pasta-2.png', 4.7),
+(9, 'Penne alla', 'Short, tube-like pasta tossed in a creamy tomato-based sauce', 2300, 'pasta', 'images/pasta-3.png', 4.6),
+(10, 'Linguine alle Vongole', 'Flat, thin noodles served with a flavorful clam sauce, garlic, white wine', 3000, 'pasta', 'images/pasta-4.png', 4.8),
+(11, 'Ravioli', 'Pillow-like pasta pockets filled with a variety of delicious stuffings', 1300, 'pasta', 'images/pasta-5.png', 4.5),
+(12, 'Farfalle', 'Delightfully shaped like bowties, these pasta pieces are perfect for catching sauces', 3300, 'pasta', 'images/pasta-6.png', 4.6),
+(13, 'Chocolate Fondue', 'Dive into indulgence with a communal pot of rich, melted chocolate', 4700, 'dessert', 'images/dessert-1.png', 4.9),
+(14, 'Tiramisu', 'A classic Italian dessert featuring layers of coffee-soaked ladyfingers, mascarpone cheese, and cocoa', 3000, 'dessert', 'images/dessert-2.png', 4.8),
+(15, 'Fruit Tart', 'A delightful combination of buttery pastry crust, luscious pastry cream, and fresh fruits', 2500, 'dessert', 'images/dessert-3.png', 4.7),
+(16, 'Molten Lava Cake', 'Experience pure decadence as you dig into a warm and gooey chocolate cake with a melting center', 5000, 'dessert', 'images/dessert-4.png', 4.9);

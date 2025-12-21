@@ -1,0 +1,38 @@
+version: '3.8'
+
+services:
+  jenkins:
+    image: jenkins/jenkins:lts-jdk17
+    container_name: jenkins_server
+    privileged: true
+    user: root
+    ports:
+      - 8080:8080
+      - 50000:50000
+    volumes:
+      - jenkins_home:/var/jenkins_home
+      - docker_certs:/certs/client
+      - webapps_data:/var/shared/webapps # Shared volume to copy WAR file
+    networks:
+      - ci_network
+    environment:
+      - DOCKER_TLS_CERTDIR=/certs
+
+  tomcat:
+    image: tomcat:9.0-jdk17
+    container_name: tomcat_server
+    ports:
+      - 8888:8080
+    volumes:
+      - webapps_data:/usr/local/tomcat/webapps # Shared volume for deployment
+    networks:
+      - ci_network
+
+volumes:
+  jenkins_home:
+  docker_certs:
+  webapps_data:
+
+networks:
+  ci_network:
+    driver: bridge
