@@ -380,20 +380,45 @@ async function handlePlaceOrder(checkoutModal) {
     placeOrderBtn.disabled = true;
 
     try {
-        // Simulate API call or call actual API if ready
-        // For now, we simulate success after 1.5s
-        await new Promise(resolve => setTimeout(resolve, 1500));
+        const cartData = await cart.get();
+        if (!cartData || !cartData.items || cartData.items.length === 0) {
+            alert('Your cart is empty');
+            return;
+        }
 
-        // Call backend to create order (optional, if backend supports it)
-        // const response = await fetch('/api/orders', { ... });
+        const orderItems = cartData.items.map(item => ({
+            productId: item.product.id,
+            quantity: item.quantity
+        }));
+
+        const response = await fetch('/api/orders', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+                // 'X-CSRF-TOKEN': ... // if CSRF enabled
+            },
+            // Server gets userId from session, so we don't need to send it here.
+            // But OrderRequest expects a "items" list.
+            body: JSON.stringify({
+                items: orderItems
+            })
+        });
+
+        if (!response.ok) {
+            const errorText = await response.text();
+            throw new Error(errorText || 'Failed to place order');
+        }
+
+        const order = await response.json();
+        console.log('Order placed:', order);
 
         // Success
-        alert('Your order has been placed successfully!');
+        alert('Your order has been placed successfully! Order ID: ' + order.id);
 
         // Clear cart
         await cart.clear();
 
-        // Force badge update just in case
+        // Force badge update
         await cart.updateBadge();
 
         // Close modal
@@ -404,9 +429,11 @@ async function handlePlaceOrder(checkoutModal) {
 
     } catch (error) {
         console.error('Order error:', error);
-        alert('Failed to place order. Please try again.');
+        alert('Failed to place order: ' + error.message);
     } finally {
-        placeOrderBtn.innerText = 'Place Order';
-        placeOrderBtn.disabled = false;
+        if (placeOrderBtn) {
+            placeOrderBtn.innerText = 'Place Order';
+            placeOrderBtn.disabled = false;
+        }
     }
 }

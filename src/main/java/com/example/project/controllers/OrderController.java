@@ -21,8 +21,14 @@ public class OrderController {
     private OrderService orderService;
 
     @PostMapping
-    public ResponseEntity<?> createOrder(@RequestBody OrderRequest orderRequest) {
+    public ResponseEntity<?> createOrder(
+            @org.springframework.security.core.annotation.AuthenticationPrincipal com.example.project.services.CustomUserDetails userDetails,
+            @RequestBody OrderRequest orderRequest) {
         try {
+            if (userDetails == null) {
+                return ResponseEntity.status(401).body("User not authenticated");
+            }
+
             List<OrderItem> items = orderRequest.getItems().stream().map(itemRequest -> {
                 OrderItem item = new OrderItem();
                 Product p = new Product();
@@ -32,7 +38,7 @@ public class OrderController {
                 return item;
             }).collect(Collectors.toList());
 
-            Order order = orderService.createOrder(orderRequest.getUserId(), items);
+            Order order = orderService.createOrder(userDetails.getId(), items);
             return ResponseEntity.ok(order);
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
