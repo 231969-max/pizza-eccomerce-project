@@ -90,7 +90,10 @@
             Shop</a>
         <div>
             <a href="/menu.html" style="color: white; margin-right: 1rem;">Menu</a>
-            <a href="/api/auth/logout" style="color: white;">Logout</a>
+            <form th:action="@{/api/auth/logout}" method="post" style="display: inline;">
+                <button type="submit"
+                    style="background:none; border:none; color:white; cursor:pointer; font-size:1rem;">Logout</button>
+            </form>
         </div>
     </nav>
 
