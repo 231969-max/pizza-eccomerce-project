@@ -61,9 +61,24 @@
 
 
 
-		<dependency>
+        <dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
+			<scope>test</scope>
+		</dependency>
+
+		<!-- Selenium for Browser Automation -->
+		<dependency>
+			<groupId>org.seleniumhq.selenium</groupId>
+			<artifactId>selenium-java</artifactId>
+			<version>4.14.1</version>
+			<scope>test</scope>
+		</dependency>
+		<!-- WebDriverManager to auto-download Chrome Driver -->
+		<dependency>
+			<groupId>io.github.bonigarcia</groupId>
+			<artifactId>webdrivermanager</artifactId>
+			<version>5.5.3</version>
 			<scope>test</scope>
 		</dependency>
 	</dependencies>
